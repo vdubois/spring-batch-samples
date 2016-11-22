@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/spring-batch-sample-csv-reader/spring-batch-sample-csv-reader.iml" filepath="$PROJECT_DIR$/spring-batch-sample-csv-reader/spring-batch-sample-csv-reader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-batch-sample-custom-tasklet/spring-batch-sample-custom-tasklet.iml" filepath="$PROJECT_DIR$/spring-batch-sample-custom-tasklet/spring-batch-sample-custom-tasklet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-batch-sample-delimited-text-reader/spring-batch-sample-delimited-text-reader.iml" filepath="$PROJECT_DIR$/spring-batch-sample-delimited-text-reader/spring-batch-sample-delimited-text-reader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-batch-sample-item-reader-listener/spring-batch-sample-item-reader-listener.iml" filepath="$PROJECT_DIR$/spring-batch-sample-item-reader-listener/spring-batch-sample-item-reader-listener.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-batch-sample-job-parameters-validator/spring-batch-sample-job-parameters-validator.iml" filepath="$PROJECT_DIR$/spring-batch-sample-job-parameters-validator/spring-batch-sample-job-parameters-validator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-batch-samples.iml" filepath="$PROJECT_DIR$/spring-batch-samples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-batch-samples-common/spring-batch-samples-common.iml" filepath="$PROJECT_DIR$/spring-batch-samples-common/spring-batch-samples-common.iml" />
+    </modules>
+  </component>
+</project>

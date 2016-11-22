@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="MySQL - springbatch@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="2.6">
+    <schema id="1" name="springbatch">
+      <visible>1</visible>
+    </schema>
+    <schema id="2" name="information_schema"/>
+    <table id="3" parent="1" name="BATCH_JOB_EXECUTION"/>
+    <table id="4" parent="1" name="BATCH_JOB_EXECUTION_CONTEXT"/>
+    <table id="5" parent="1" name="BATCH_JOB_EXECUTION_PARAMS"/>
+    <table id="6" parent="1" name="BATCH_JOB_EXECUTION_SEQ"/>
+    <table id="7" parent="1" name="BATCH_JOB_INSTANCE"/>
+    <table id="8" parent="1" name="BATCH_JOB_SEQ"/>
+    <table id="9" parent="1" name="BATCH_STEP_EXECUTION"/>
+    <table id="10" parent="1" name="BATCH_STEP_EXECUTION_CONTEXT"/>
+    <table id="11" parent="1" name="BATCH_STEP_EXECUTION_SEQ"/>
+    <table id="12" parent="1" name="users"/>
+    <column id="13" parent="3" name="JOB_EXECUTION_ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="14" parent="3" name="VERSION">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="15" parent="3" name="JOB_INSTANCE_ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="16" parent="3" name="CREATE_TIME">
+      <mandatory>1</mandatory>
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="17" parent="3" name="START_TIME">
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="18" parent="3" name="END_TIME">
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="19" parent="3" name="STATUS">
+      <data-type>varchar(10)|0</data-type>
+    </column>
+    <column id="20" parent="3" name="EXIT_CODE">
+      <data-type>varchar(2500)|0</data-type>
+    </column>
+    <column id="21" parent="3" name="EXIT_MESSAGE">
+      <data-type>varchar(2500)|0</data-type>
+    </column>
+    <column id="22" parent="3" name="LAST_UPDATED">
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="23" parent="3" name="JOB_CONFIGURATION_LOCATION">
+      <data-type>varchar(2500)|0</data-type>
+    </column>
+    <index id="24" parent="3" name="JOB_INST_EXEC_FK">
+      <columns>JOB_INSTANCE_ID</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="25" parent="3" name="PRIMARY">
+      <columns>JOB_EXECUTION_ID</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="26" parent="3" name="JOB_INST_EXEC_FK">
+      <columns>JOB_INSTANCE_ID</columns>
+      <ref-key>~.BATCH_JOB_INSTANCE.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="27" parent="4" name="JOB_EXECUTION_ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="28" parent="4" name="SHORT_CONTEXT">
+      <mandatory>1</mandatory>
+      <data-type>varchar(2500)|0</data-type>
+    </column>
+    <column id="29" parent="4" name="SERIALIZED_CONTEXT">
+      <data-type>text|0</data-type>
+    </column>
+    <key id="30" parent="4" name="PRIMARY">
+      <columns>JOB_EXECUTION_ID</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="31" parent="4" name="JOB_EXEC_CTX_FK">
+      <columns>JOB_EXECUTION_ID</columns>
+      <ref-key>~.BATCH_JOB_EXECUTION.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="32" parent="5" name="JOB_EXECUTION_ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="33" parent="5" name="TYPE_CD">
+      <mandatory>1</mandatory>
+      <data-type>varchar(6)|0</data-type>
+    </column>
+    <column id="34" parent="5" name="KEY_NAME">
+      <mandatory>1</mandatory>
+      <data-type>varchar(100)|0</data-type>
+    </column>
+    <column id="35" parent="5" name="STRING_VAL">
+      <data-type>varchar(250)|0</data-type>
+    </column>
+    <column id="36" parent="5" name="DATE_VAL">
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="37" parent="5" name="LONG_VAL">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="38" parent="5" name="DOUBLE_VAL">
+      <data-type>double|0</data-type>
+    </column>
+    <column id="39" parent="5" name="IDENTIFYING">
+      <mandatory>1</mandatory>
+      <data-type>char(1)|0</data-type>
+    </column>
+    <index id="40" parent="5" name="JOB_EXEC_PARAMS_FK">
+      <columns>JOB_EXECUTION_ID</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <foreign-key id="41" parent="5" name="JOB_EXEC_PARAMS_FK">
+      <columns>JOB_EXECUTION_ID</columns>
+      <ref-key>~.BATCH_JOB_EXECUTION.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="42" parent="6" name="ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="43" parent="6" name="UNIQUE_KEY">
+      <mandatory>1</mandatory>
+      <data-type>char(1)|0</data-type>
+    </column>
+    <index id="44" parent="6" name="UNIQUE_KEY_UN">
+      <columns>UNIQUE_KEY</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="45" parent="6" name="UNIQUE_KEY_UN">
+      <columns>UNIQUE_KEY</columns>
+      <underlying-index>UNIQUE_KEY_UN</underlying-index>
+    </key>
+    <column id="46" parent="7" name="JOB_INSTANCE_ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="47" parent="7" name="VERSION">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="48" parent="7" name="JOB_NAME">
+      <mandatory>1</mandatory>
+      <data-type>varchar(100)|0</data-type>
+    </column>
+    <column id="49" parent="7" name="JOB_KEY">
+      <mandatory>1</mandatory>
+      <data-type>varchar(32)|0</data-type>
+    </column>
+    <index id="50" parent="7" name="JOB_INST_UN">
+      <columns>JOB_NAME
+JOB_KEY</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="51" parent="7" name="PRIMARY">
+      <columns>JOB_INSTANCE_ID</columns>
+      <primary>1</primary>
+    </key>
+    <key id="52" parent="7" name="JOB_INST_UN">
+      <columns>JOB_NAME
+JOB_KEY</columns>
+      <underlying-index>JOB_INST_UN</underlying-index>
+    </key>
+    <column id="53" parent="8" name="ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="54" parent="8" name="UNIQUE_KEY">
+      <mandatory>1</mandatory>
+      <data-type>char(1)|0</data-type>
+    </column>
+    <index id="55" parent="8" name="UNIQUE_KEY_UN">
+      <columns>UNIQUE_KEY</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="56" parent="8" name="UNIQUE_KEY_UN">
+      <columns>UNIQUE_KEY</columns>
+      <underlying-index>UNIQUE_KEY_UN</underlying-index>
+    </key>
+    <column id="57" parent="9" name="STEP_EXECUTION_ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="58" parent="9" name="VERSION">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="59" parent="9" name="STEP_NAME">
+      <mandatory>1</mandatory>
+      <data-type>varchar(100)|0</data-type>
+    </column>
+    <column id="60" parent="9" name="JOB_EXECUTION_ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="61" parent="9" name="START_TIME">
+      <mandatory>1</mandatory>
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="62" parent="9" name="END_TIME">
+      <data-type>datetime|0</data-type>
+    </column>
+    <column id="63" parent="9" name="STATUS">
+      <data-type>varchar(10)|0</data-type>
+    </column>
+    <column id="64" parent="9" name="COMMIT_COUNT">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="65" parent="9" name="READ_COUNT">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="66" parent="9" name="FILTER_COUNT">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="67" parent="9" name="WRITE_COUNT">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="68" parent="9" name="READ_SKIP_COUNT">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="69" parent="9" name="WRITE_SKIP_COUNT">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="70" parent="9" name="PROCESS_SKIP_COUNT">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="71" parent="9" name="ROLLBACK_COUNT">
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="72" parent="9" name="EXIT_CODE">
+      <data-type>varchar(2500)|0</data-type>
+    </column>
+    <column id="73" parent="9" name="EXIT_MESSAGE">
+      <data-type>varchar(2500)|0</data-type>
+    </column>
+    <column id="74" parent="9" name="LAST_UPDATED">
+      <data-type>datetime|0</data-type>
+    </column>
+    <index id="75" parent="9" name="JOB_EXEC_STEP_FK">
+      <columns>JOB_EXECUTION_ID</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="76" parent="9" name="PRIMARY">
+      <columns>STEP_EXECUTION_ID</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="77" parent="9" name="JOB_EXEC_STEP_FK">
+      <columns>JOB_EXECUTION_ID</columns>
+      <ref-key>~.BATCH_JOB_EXECUTION.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="78" parent="10" name="STEP_EXECUTION_ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="79" parent="10" name="SHORT_CONTEXT">
+      <mandatory>1</mandatory>
+      <data-type>varchar(2500)|0</data-type>
+    </column>
+    <column id="80" parent="10" name="SERIALIZED_CONTEXT">
+      <data-type>text|0</data-type>
+    </column>
+    <key id="81" parent="10" name="PRIMARY">
+      <columns>STEP_EXECUTION_ID</columns>
+      <primary>1</primary>
+    </key>
+    <foreign-key id="82" parent="10" name="STEP_EXEC_CTX_FK">
+      <columns>STEP_EXECUTION_ID</columns>
+      <ref-key>~.BATCH_STEP_EXECUTION.PRIMARY</ref-key>
+      <cascade-update-rule>restrict</cascade-update-rule>
+      <cascade-delete-rule>restrict</cascade-delete-rule>
+    </foreign-key>
+    <column id="83" parent="11" name="ID">
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="84" parent="11" name="UNIQUE_KEY">
+      <mandatory>1</mandatory>
+      <data-type>char(1)|0</data-type>
+    </column>
+    <index id="85" parent="11" name="UNIQUE_KEY_UN">
+      <columns>UNIQUE_KEY</columns>
+      <desc-columns></desc-columns>
+      <unique>1</unique>
+    </index>
+    <key id="86" parent="11" name="UNIQUE_KEY_UN">
+      <columns>UNIQUE_KEY</columns>
+      <underlying-index>UNIQUE_KEY_UN</underlying-index>
+    </key>
+    <column id="87" parent="12" name="id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="88" parent="12" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(100)|0</data-type>
+    </column>
+    <column id="89" parent="12" name="position">
+      <mandatory>1</mandatory>
+      <data-type>varchar(100)|0</data-type>
+    </column>
+    <column id="90" parent="12" name="companyNumber">
+      <mandatory>1</mandatory>
+      <data-type>varchar(10)|0</data-type>
+    </column>
+  </database-model>
+</dataSource>

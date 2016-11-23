@@ -6,7 +6,7 @@ import lombok.Data;
  * Created by vdubois on 21/11/16.
  */
 @Data
-public class User {
+public class User extends Resource {
 
     private String id;
 

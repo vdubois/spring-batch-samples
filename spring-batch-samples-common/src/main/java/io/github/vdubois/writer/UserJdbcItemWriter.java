@@ -35,11 +35,11 @@ public class UserJdbcItemWriter implements ItemWriter<User> {
         items.forEach(user -> {
             // we try first to update data
             int updated = jdbcTemplate.update(UPDATE_USER,
-                    user.getFullName(), user.getPosition(), user.getCompanyNumber(), user.getId());
+                    user.getName(), user.getPosition(), user.getCompanyNumber(), user.getId());
             // if no line has been updated, then user has to be created
             if (updated == 0) {
                 jdbcTemplate.update(INSERT_USER,
-                        user.getId(), user.getFullName(), user.getPosition(), user.getCompanyNumber());
+                        user.getId(), user.getName(), user.getPosition(), user.getCompanyNumber());
             }
         });
     }

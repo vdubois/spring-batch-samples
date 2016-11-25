@@ -10,7 +10,7 @@ public class User extends Resource {
 
     private String id;
 
-    private String fullName;
+    private String name;
 
     private String position;
 

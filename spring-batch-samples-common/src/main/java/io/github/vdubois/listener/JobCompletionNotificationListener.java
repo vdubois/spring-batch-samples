@@ -41,7 +41,7 @@ public class JobCompletionNotificationListener implements JobExecutionListener {
             List<User> usersResults = jdbcTemplate.query("SELECT * FROM users", (resultSet, row) -> {
                 User user = new User();
                 user.setId("" + resultSet.getInt(1));
-                user.setFullName(resultSet.getString(2));
+                user.setName(resultSet.getString(2));
                 user.setPosition(resultSet.getString(3));
                 user.setCompanyNumber(resultSet.getString(4));
                 return user;

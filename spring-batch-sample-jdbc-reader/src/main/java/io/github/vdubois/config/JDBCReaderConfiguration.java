@@ -5,11 +5,16 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.launch.support.SimpleJobLauncher;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.PagingQueryProvider;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,12 +31,20 @@ import java.util.HashMap;
 public class JDBCReaderConfiguration {
 
     @Bean
-    public JdbcPagingItemReader<User> reader(DataSource dataSource) throws Exception {
+    public JobLauncher jobLauncher(JobRepository jobRepository) {
+        SimpleJobLauncher simpleJobLauncher = new SimpleJobLauncher();
+        simpleJobLauncher.setJobRepository(jobRepository);
+        return simpleJobLauncher;
+    }
+
+    @Bean
+    @StepScope
+    public JdbcPagingItemReader<User> reader(DataSource dataSource, @Value(value = "#{jobParameters['position']}") String position) throws Exception {
         JdbcPagingItemReader<User> itemReader = new JdbcPagingItemReader<>();
         itemReader.setDataSource(dataSource);
         itemReader.setQueryProvider(queryProvider(dataSource));
         HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("position", "Technical Expert");
+        parameters.put("position", position);
         itemReader.setParameterValues(parameters);
         itemReader.setRowMapper(new BeanPropertyRowMapper<>(User.class));
         itemReader.setPageSize(10);

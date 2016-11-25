@@ -1,8 +1,10 @@
 package io.github.vdubois.config;
 
+import io.github.vdubois.writer.LogItemWriter;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -46,4 +48,8 @@ public class InfrastructureConfiguration {
         return new JdbcTemplate(dataSource());
     }
 
+    @Bean
+    public ItemWriter logWriter() {
+        return new LogItemWriter();
+    }
 }

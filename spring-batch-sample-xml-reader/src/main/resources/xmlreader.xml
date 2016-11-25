@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<users>
+    <user>
+        <id>1</id>
+        <fullName>Vincent Dubois</fullName>
+        <position>Technical Expert</position>
+        <companyNumber>7688</companyNumber>
+    </user>
+    <user>
+        <id>2</id>
+        <fullName>Josh Long</fullName>
+        <position>Evangelist at Pivotal</position>
+        <companyNumber>6521</companyNumber>
+    </user>
+    <user>
+        <id>3</id>
+        <fullName>Matt Stine</fullName>
+        <position>Manager at Pivotal</position>
+        <companyNumber>9532</companyNumber>
+    </user>
+</users>

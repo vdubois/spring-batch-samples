@@ -19,6 +19,8 @@
 		<module>spring-batch-sample-item-reader-listener</module>
 		<module>spring-batch-sample-delimited-text-reader</module>
 		<module>spring-batch-sample-multiline-csv-reader</module>
+		<module>spring-batch-sample-xml-reader</module>
+		<module>spring-batch-sample-jdbc-reader</module>
 	</modules>
 
 </project>

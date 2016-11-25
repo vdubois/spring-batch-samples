@@ -1,15 +1,15 @@
 package io.github.vdubois.config;
 
 import io.github.vdubois.aggregator.ResourceLineAggregator;
-import io.github.vdubois.listener.JobCompletionNotificationListener;
+import io.github.vdubois.listener.MultilineCsvWriterListener;
 import io.github.vdubois.model.MailingList;
 import io.github.vdubois.model.Resource;
 import io.github.vdubois.model.User;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -25,7 +25,6 @@ import org.springframework.batch.item.file.transform.LineAggregator;
 import org.springframework.batch.item.file.transform.LineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
@@ -36,11 +35,10 @@ import java.util.Map;
  * Created by vdubois on 21/11/16.
  */
 @Configuration
-@Import({InfrastructureConfiguration.class})
+@EnableBatchProcessing
 public class MultilineCsvWriterConfiguration {
 
     @Bean
-    @StepScope
     public FlatFileItemReader<Resource> reader() {
         FlatFileItemReader<Resource> itemReader = new FlatFileItemReader<>();
         itemReader.setResource(new ClassPathResource("multiline-sample-data.csv"));
@@ -94,35 +92,35 @@ public class MultilineCsvWriterConfiguration {
     }
 
     @Bean
-    @StepScope
     public ItemWriter<Resource> writer() {
         FlatFileItemWriter<Resource> itemWriter = new FlatFileItemWriter<>();
-        itemWriter.setResource(new FileSystemResource("/home/vdubois/Downloads/multiline-writed-data.csv"));
-        itemWriter.setAppendAllowed(false);
+        itemWriter.setResource(new FileSystemResource("multiline-sample-written-data.csv"));
+        itemWriter.setAppendAllowed(true);
         itemWriter.setLineAggregator(resourceLineAggregator());
         return itemWriter;
     }
 
-    private LineAggregator resourceLineAggregator() {
+    private ResourceLineAggregator resourceLineAggregator() {
         ResourceLineAggregator lineAggregator = new ResourceLineAggregator();
-        Map<String, LineAggregator> aggregators = new HashMap<>();
-        aggregators.put("io.github.vdubois.model.User", userAggregator());
-        aggregators.put("io.github.vdubois.model.MailingList", mailingListAggregator());
+        Map<Class, LineAggregator<Resource>> aggregators = new HashMap<>();
+        aggregators.put(User.class, userAggregator());
+        aggregators.put(MailingList.class, mailingListAggregator());
+        lineAggregator.setAggregators(aggregators);
         return lineAggregator;
     }
 
-    private LineAggregator userAggregator() {
-        FormatterLineAggregator<User> lineAggregator = new FormatterLineAggregator<>();
-        BeanWrapperFieldExtractor<User> userFieldExtractor = new BeanWrapperFieldExtractor<>();
+    private FormatterLineAggregator<Resource> userAggregator() {
+        FormatterLineAggregator<Resource> lineAggregator = new FormatterLineAggregator<>();
+        BeanWrapperFieldExtractor<Resource> userFieldExtractor = new BeanWrapperFieldExtractor<>();
         userFieldExtractor.setNames(new String[] {"name", "position"});
         lineAggregator.setFieldExtractor(userFieldExtractor);
         lineAggregator.setFormat("YOU-ZER,%s,%s");
         return lineAggregator;
     }
 
-    private LineAggregator mailingListAggregator() {
-        FormatterLineAggregator<MailingList> lineAggregator = new FormatterLineAggregator<>();
-        BeanWrapperFieldExtractor<MailingList> userFieldExtractor = new BeanWrapperFieldExtractor<>();
+    private FormatterLineAggregator<Resource> mailingListAggregator() {
+        FormatterLineAggregator<Resource> lineAggregator = new FormatterLineAggregator<>();
+        BeanWrapperFieldExtractor<Resource> userFieldExtractor = new BeanWrapperFieldExtractor<>();
         userFieldExtractor.setNames(new String[] {"email"});
         lineAggregator.setFieldExtractor(userFieldExtractor);
         lineAggregator.setFormat("MAILING-LIST,%s");
@@ -130,10 +128,10 @@ public class MultilineCsvWriterConfiguration {
     }
 
     @Bean
-    public Job multilineCsvReaderJob(JobCompletionNotificationListener jobCompletionNotificationListener, JobBuilderFactory jobBuilderFactory, Step step) {
+    public Job multilineCsvReaderJob(MultilineCsvWriterListener listener, JobBuilderFactory jobBuilderFactory, Step step) {
         return jobBuilderFactory.get("multilineCsvReaderJob")
                 .incrementer(new RunIdIncrementer())
-                .listener(jobCompletionNotificationListener)
+                .listener(listener)
                 .flow(step)
                 .end()
                 .build();

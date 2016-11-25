@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class ResourceLineAggregator implements LineAggregator<Resource> {
 
-    private Map<Class<LineAggregator<Resource>>, LineAggregator<Object>> aggregators;
+    private Map<Class, LineAggregator<Resource>> aggregators;
 
     /**
      * Create a string from the value provided.
@@ -28,7 +28,7 @@ public class ResourceLineAggregator implements LineAggregator<Resource> {
      *
      * @param aggregators the aggregators
      */
-    public void setAggregators(Map<Class<LineAggregator<Resource>>, LineAggregator<Object>> aggregators) {
+    public void setAggregators(Map<Class, LineAggregator<Resource>> aggregators) {
         this.aggregators = aggregators;
     }
 }

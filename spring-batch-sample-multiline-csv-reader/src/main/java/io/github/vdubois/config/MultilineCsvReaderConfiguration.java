@@ -93,7 +93,7 @@ public class MultilineCsvReaderConfiguration {
     }
 
     @Bean
-    public Job csvReaderJob(JobCompletionNotificationListener jobCompletionNotificationListener, JobBuilderFactory jobBuilderFactory, Step step) {
+    public Job multilineCsvReaderJob(JobCompletionNotificationListener jobCompletionNotificationListener, JobBuilderFactory jobBuilderFactory, Step step) {
         return jobBuilderFactory.get("multilineCsvReaderJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(jobCompletionNotificationListener)

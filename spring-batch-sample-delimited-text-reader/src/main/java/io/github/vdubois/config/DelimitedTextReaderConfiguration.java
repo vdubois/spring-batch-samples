@@ -67,8 +67,8 @@ public class DelimitedTextReaderConfiguration {
     }
 
     @Bean
-    public Job csvReaderJob(JobCompletionNotificationListener jobCompletionNotificationListener, JobBuilderFactory jobBuilderFactory, Step step) {
-        return jobBuilderFactory.get("csvReaderJob")
+    public Job textReaderJob(JobCompletionNotificationListener jobCompletionNotificationListener, JobBuilderFactory jobBuilderFactory, Step step) {
+        return jobBuilderFactory.get("textReaderJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(jobCompletionNotificationListener)
                 .flow(step)

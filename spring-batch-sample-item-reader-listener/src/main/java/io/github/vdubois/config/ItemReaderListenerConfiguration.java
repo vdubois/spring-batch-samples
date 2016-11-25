@@ -64,8 +64,8 @@ public class ItemReaderListenerConfiguration {
     }
 
     @Bean
-    public Job csvReaderJob(JobCompletionNotificationListener jobCompletionNotificationListener, JobBuilderFactory jobBuilderFactory, Step step) {
-        return jobBuilderFactory.get("csvReaderJob")
+    public Job itemReaderListenerJob(JobCompletionNotificationListener jobCompletionNotificationListener, JobBuilderFactory jobBuilderFactory, Step step) {
+        return jobBuilderFactory.get("itemReaderListenerJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(jobCompletionNotificationListener)
                 .flow(step)

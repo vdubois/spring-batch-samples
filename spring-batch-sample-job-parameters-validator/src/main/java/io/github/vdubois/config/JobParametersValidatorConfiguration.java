@@ -68,8 +68,8 @@ public class JobParametersValidatorConfiguration {
     }
 
     @Bean
-    public Job csvReaderJob(JobCompletionNotificationListener jobCompletionNotificationListener, JobBuilderFactory jobBuilderFactory, Step stepWithCustomTasklet, Step step) {
-        return jobBuilderFactory.get("customTaskletJob")
+    public Job parametersValidatorJob(JobCompletionNotificationListener jobCompletionNotificationListener, JobBuilderFactory jobBuilderFactory, Step stepWithCustomTasklet, Step step) {
+        return jobBuilderFactory.get("parametersValidatorJob")
                 .incrementer(new RunIdIncrementer())
                 .validator(validator())
                 .listener(jobCompletionNotificationListener)

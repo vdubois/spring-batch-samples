@@ -21,6 +21,9 @@
 		<module>spring-batch-sample-multiline-csv-reader</module>
 		<module>spring-batch-sample-xml-reader</module>
 		<module>spring-batch-sample-jdbc-reader</module>
+		<module>spring-batch-sample-hibernate-reader</module>
+		<module>spring-batch-sample-adapter-reader</module>
+		<module>spring-batch-sample-multiline-csv-writer</module>
 	</modules>
 
 </project>

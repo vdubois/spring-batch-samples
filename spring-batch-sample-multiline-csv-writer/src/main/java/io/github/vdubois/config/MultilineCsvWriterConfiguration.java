@@ -128,8 +128,8 @@ public class MultilineCsvWriterConfiguration {
     }
 
     @Bean
-    public Job multilineCsvReaderJob(MultilineCsvWriterListener listener, JobBuilderFactory jobBuilderFactory, Step step) {
-        return jobBuilderFactory.get("multilineCsvReaderJob")
+    public Job multilineCsvWriterJob(MultilineCsvWriterListener listener, JobBuilderFactory jobBuilderFactory, Step step) {
+        return jobBuilderFactory.get("multilineCsvWriterJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
                 .flow(step)

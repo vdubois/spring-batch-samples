@@ -24,6 +24,7 @@
 		<module>spring-batch-sample-hibernate-reader</module>
 		<module>spring-batch-sample-adapter-reader</module>
 		<module>spring-batch-sample-multiline-csv-writer</module>
+		<module>spring-batch-sample-header-and-footer-csv-writer</module>
 	</modules>
 
 </project>

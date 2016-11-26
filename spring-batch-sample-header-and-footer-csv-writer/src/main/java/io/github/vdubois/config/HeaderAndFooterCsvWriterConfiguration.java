@@ -21,9 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
-import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -36,15 +34,6 @@ import java.util.TimeZone;
 @Configuration
 @Import({InfrastructureConfiguration.class})
 public class HeaderAndFooterCsvWriterConfiguration {
-
-    @Bean
-    public JdbcCursorItemReader<User> reader(DataSource dataSource) {
-        JdbcCursorItemReader<User> itemReader = new JdbcCursorItemReader<>();
-        itemReader.setDataSource(dataSource);
-        itemReader.setSql("select id, name, position, companyNumber from users");
-        itemReader.setRowMapper(new BeanPropertyRowMapper<>(User.class));
-        return itemReader;
-    }
 
     @Bean
     @StepScope

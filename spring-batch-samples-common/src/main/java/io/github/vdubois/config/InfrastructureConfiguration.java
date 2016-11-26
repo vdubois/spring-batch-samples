@@ -1,17 +1,18 @@
 package io.github.vdubois.config;
 
+import io.github.vdubois.model.User;
 import io.github.vdubois.writer.LogItemWriter;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -54,4 +55,14 @@ public class InfrastructureConfiguration {
     public ItemWriter logWriter() {
         return new LogItemWriter();
     }
+
+    @Bean
+    public JdbcCursorItemReader<User> reader(DataSource dataSource) {
+        JdbcCursorItemReader<User> itemReader = new JdbcCursorItemReader<>();
+        itemReader.setDataSource(dataSource);
+        itemReader.setSql("select id, name, position, companyNumber from users");
+        itemReader.setRowMapper(new BeanPropertyRowMapper<>(User.class));
+        return itemReader;
+    }
+
 }

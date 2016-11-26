@@ -1,7 +1,7 @@
 package io.github.vdubois.config;
 
 import io.github.vdubois.aggregator.ResourceLineAggregator;
-import io.github.vdubois.listener.MultilineCsvWriterListener;
+import io.github.vdubois.listener.OutputFileListener;
 import io.github.vdubois.model.MailingList;
 import io.github.vdubois.model.Resource;
 import io.github.vdubois.model.User;
@@ -10,6 +10,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -23,8 +24,10 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.FormatterLineAggregator;
 import org.springframework.batch.item.file.transform.LineAggregator;
 import org.springframework.batch.item.file.transform.LineTokenizer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 
@@ -35,7 +38,7 @@ import java.util.Map;
  * Created by vdubois on 21/11/16.
  */
 @Configuration
-@EnableBatchProcessing
+@Import({InfrastructureConfiguration.class})
 public class MultilineCsvWriterConfiguration {
 
     @Bean
@@ -92,9 +95,10 @@ public class MultilineCsvWriterConfiguration {
     }
 
     @Bean
-    public ItemWriter<Resource> writer() {
+    @StepScope
+    public FlatFileItemWriter<Resource> writer(@Value("#{jobParameters['outputFile']}") String outputFile) {
         FlatFileItemWriter<Resource> itemWriter = new FlatFileItemWriter<>();
-        itemWriter.setResource(new FileSystemResource("multiline-sample-written-data.csv"));
+        itemWriter.setResource(new FileSystemResource(outputFile));
         itemWriter.setAppendAllowed(true);
         itemWriter.setLineAggregator(resourceLineAggregator());
         return itemWriter;
@@ -128,7 +132,7 @@ public class MultilineCsvWriterConfiguration {
     }
 
     @Bean
-    public Job multilineCsvWriterJob(MultilineCsvWriterListener listener, JobBuilderFactory jobBuilderFactory, Step step) {
+    public Job multilineCsvWriterJob(OutputFileListener listener, JobBuilderFactory jobBuilderFactory, Step step) {
         return jobBuilderFactory.get("multilineCsvWriterJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
@@ -138,7 +142,7 @@ public class MultilineCsvWriterConfiguration {
     }
 
     @Bean
-    public Step step(StepBuilderFactory stepBuilderFactory, ItemWriter<Resource> writer, FlatFileItemReader<Resource> reader) {
+    public Step step(StepBuilderFactory stepBuilderFactory, FlatFileItemWriter<Resource> writer, FlatFileItemReader<Resource> reader) {
         return stepBuilderFactory.get("step")
                 .<Resource, Resource>chunk(2)
                 .reader(reader)

@@ -17,16 +17,17 @@ import java.util.stream.Stream;
  * Created by vdubois on 25/11/16.
  */
 @Component
-public class MultilineCsvWriterListener extends JobExecutionListenerSupport {
+public class OutputFileListener extends JobExecutionListenerSupport {
 
-    private static final Logger log = LoggerFactory.getLogger(MultilineCsvWriterListener.class);
+    private static final Logger log = LoggerFactory.getLogger(OutputFileListener.class);
 
     @Override
     public void afterJob(JobExecution jobExecution) {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("**************************************************");
             log.info("=> !!! JOB FINISHED! Time to verify the results");
-            FileSystemResource writedFile = new FileSystemResource("multiline-sample-written-data.csv");
+            String outputFile = jobExecution.getJobParameters().getString("outputFile");
+            FileSystemResource writedFile = new FileSystemResource(outputFile);
             try {
                 Stream<String> lines = Files.lines(Paths.get(writedFile.getURI()));
                 lines.forEach(log::info);

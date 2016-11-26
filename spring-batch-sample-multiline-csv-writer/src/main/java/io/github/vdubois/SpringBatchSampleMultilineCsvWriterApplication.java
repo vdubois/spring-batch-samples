@@ -26,7 +26,8 @@ public class SpringBatchSampleMultilineCsvWriterApplication {
 		JobLauncher jobLauncher = ctx.getBean(JobLauncher.class);
 		JobParameters jobParameters =
 				new JobParametersBuilder()
-						.addDate("date", new Date()).toJobParameters();
+						.addDate("date", new Date())
+						.addString("outputFile", "multiline-sample-written-data.csv").toJobParameters();
 		jobLauncher.run(ctx.getBean(Job.class), jobParameters);
 		ctx.close();
 	}

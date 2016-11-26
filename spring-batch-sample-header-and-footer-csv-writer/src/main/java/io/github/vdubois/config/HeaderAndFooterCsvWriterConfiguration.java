@@ -1,15 +1,14 @@
 package io.github.vdubois.config;
 
 import io.github.vdubois.callback.FormatterCallback;
-import io.github.vdubois.listener.HeaderAndFooterCsvWriterListener;
-import io.github.vdubois.model.Resource;
+import io.github.vdubois.listener.OutputFileListener;
 import io.github.vdubois.model.User;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.FlatFileFooterCallback;
 import org.springframework.batch.item.file.FlatFileHeaderCallback;
@@ -17,6 +16,7 @@ import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.LineAggregator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,7 +26,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -48,9 +47,10 @@ public class HeaderAndFooterCsvWriterConfiguration {
     }
 
     @Bean
-    public ItemWriter<User> writer() {
+    @StepScope
+    public FlatFileItemWriter<User> writer(@Value("#{jobParameters['outputFile']}") String outputFile) {
         FlatFileItemWriter<User> itemWriter = new FlatFileItemWriter<>();
-        itemWriter.setResource(new FileSystemResource("header-and-footer-sample-written-data.csv"));
+        itemWriter.setResource(new FileSystemResource(outputFile));
         itemWriter.setAppendAllowed(true);
         itemWriter.setLineAggregator(lineAggregator());
         itemWriter.setHeaderCallback(headerCallback());
@@ -85,7 +85,7 @@ public class HeaderAndFooterCsvWriterConfiguration {
     }
 
     @Bean
-    public Job headerAndFooterCsvWriterJob(JobBuilderFactory jobBuilderFactory, Step step, HeaderAndFooterCsvWriterListener listener) {
+    public Job headerAndFooterCsvWriterJob(JobBuilderFactory jobBuilderFactory, Step step, OutputFileListener listener) {
         return jobBuilderFactory.get("headerAndFooterCsvWriterJob")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)

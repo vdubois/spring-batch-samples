@@ -4,6 +4,7 @@ import io.github.vdubois.model.jpa.User;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -12,7 +13,6 @@ import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -28,7 +28,7 @@ import java.util.Properties;
  * Created by vdubois on 21/11/16.
  */
 @Configuration
-@Import({InfrastructureConfiguration.class})
+@EnableBatchProcessing
 public class HibernateReaderConfiguration {
 
     @Value("${database.url}")
@@ -47,7 +47,7 @@ public class HibernateReaderConfiguration {
     }
 
     @Bean
-    public JpaPagingItemReader<User> reader(EntityManagerFactory entityManagerFactory) throws Exception {
+    public JpaPagingItemReader<User> jpaReader(EntityManagerFactory entityManagerFactory) throws Exception {
         JpaPagingItemReader<User> itemReader = new JpaPagingItemReader<>();
         itemReader.setEntityManagerFactory(entityManagerFactory);
         itemReader.setQueryString("from User");
@@ -85,10 +85,10 @@ public class HibernateReaderConfiguration {
     }
 
     @Bean
-    public Step step(StepBuilderFactory stepBuilderFactory, JpaPagingItemReader<User> reader, ItemWriter logWriter) {
+    public Step step(StepBuilderFactory stepBuilderFactory, JpaPagingItemReader<User> jpaReader, ItemWriter logWriter) {
         return stepBuilderFactory.get("step")
                 .<User, User>chunk(2)
-                .reader(reader)
+                .reader(jpaReader)
                 .writer(logWriter)
                 .build();
     }

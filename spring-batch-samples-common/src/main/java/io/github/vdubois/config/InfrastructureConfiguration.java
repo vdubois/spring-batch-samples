@@ -64,5 +64,4 @@ public class InfrastructureConfiguration {
         itemReader.setRowMapper(new BeanPropertyRowMapper<>(User.class));
         return itemReader;
     }
-
 }

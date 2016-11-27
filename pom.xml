@@ -27,6 +27,7 @@
 		<module>spring-batch-sample-header-and-footer-csv-writer</module>
 		<module>spring-batch-sample-xml-writer</module>
 		<module>spring-batch-sample-multifile-writer</module>
+		<module>spring-batch-sample-jdbc-writer</module>
 	</modules>
 
 </project>

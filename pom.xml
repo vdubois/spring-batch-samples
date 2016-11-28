@@ -28,6 +28,8 @@
 		<module>spring-batch-sample-xml-writer</module>
 		<module>spring-batch-sample-multifile-writer</module>
 		<module>spring-batch-sample-jdbc-writer</module>
+		<module>spring-batch-sample-hibernate-writer</module>
+		<module>spring-batch-sample-adapter-writer</module>
 	</modules>
 
 </project>

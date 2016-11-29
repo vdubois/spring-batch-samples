@@ -30,6 +30,7 @@
 		<module>spring-batch-sample-jdbc-writer</module>
 		<module>spring-batch-sample-hibernate-writer</module>
 		<module>spring-batch-sample-adapter-writer</module>
+		<module>spring-batch-sample-service-with-parameters-writer</module>
 	</modules>
 
 </project>

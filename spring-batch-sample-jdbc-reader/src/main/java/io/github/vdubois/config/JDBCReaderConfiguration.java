@@ -6,10 +6,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.core.launch.support.SimpleJobLauncher;
-import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.PagingQueryProvider;
@@ -31,15 +28,8 @@ import java.util.HashMap;
 public class JDBCReaderConfiguration {
 
     @Bean
-    public JobLauncher jobLauncher(JobRepository jobRepository) {
-        SimpleJobLauncher simpleJobLauncher = new SimpleJobLauncher();
-        simpleJobLauncher.setJobRepository(jobRepository);
-        return simpleJobLauncher;
-    }
-
-    @Bean
     @StepScope
-    public JdbcPagingItemReader<User> reader(DataSource dataSource, @Value(value = "#{jobParameters['position']}") String position) throws Exception {
+    public JdbcPagingItemReader<User> jdbcReader(DataSource dataSource, @Value(value = "#{jobParameters['position']}") String position) throws Exception {
         JdbcPagingItemReader<User> itemReader = new JdbcPagingItemReader<>();
         itemReader.setDataSource(dataSource);
         itemReader.setQueryProvider(queryProvider(dataSource));
@@ -71,10 +61,10 @@ public class JDBCReaderConfiguration {
     }
 
     @Bean
-    public Step step(StepBuilderFactory stepBuilderFactory, JdbcPagingItemReader<User> reader, ItemWriter logWriter) {
+    public Step step(StepBuilderFactory stepBuilderFactory, JdbcPagingItemReader<User> jdbcReader, ItemWriter logWriter) {
         return stepBuilderFactory.get("step")
                 .<User, User>chunk(2)
-                .reader(reader)
+                .reader(jdbcReader)
                 .writer(logWriter)
                 .build();
     }

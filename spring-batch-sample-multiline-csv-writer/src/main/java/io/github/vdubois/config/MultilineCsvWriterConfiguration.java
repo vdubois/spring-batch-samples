@@ -7,12 +7,10 @@ import io.github.vdubois.model.Resource;
 import io.github.vdubois.model.User;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.LineMapper;
@@ -42,7 +40,7 @@ import java.util.Map;
 public class MultilineCsvWriterConfiguration {
 
     @Bean
-    public FlatFileItemReader<Resource> reader() {
+    public FlatFileItemReader<Resource> csvReader() {
         FlatFileItemReader<Resource> itemReader = new FlatFileItemReader<>();
         itemReader.setResource(new ClassPathResource("multiline-sample-data.csv"));
         itemReader.setLineMapper(lineMapper());
@@ -142,10 +140,10 @@ public class MultilineCsvWriterConfiguration {
     }
 
     @Bean
-    public Step step(StepBuilderFactory stepBuilderFactory, FlatFileItemWriter<Resource> writer, FlatFileItemReader<Resource> reader) {
+    public Step step(StepBuilderFactory stepBuilderFactory, FlatFileItemWriter<Resource> writer, FlatFileItemReader<Resource> csvReader) {
         return stepBuilderFactory.get("step")
                 .<Resource, Resource>chunk(2)
-                .reader(reader)
+                .reader(csvReader)
                 .writer(writer)
                 .build();
     }

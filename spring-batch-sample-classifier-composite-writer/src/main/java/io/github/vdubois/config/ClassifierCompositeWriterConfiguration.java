@@ -40,7 +40,7 @@ public class ClassifierCompositeWriterConfiguration {
     @Bean
     public FlatFileItemReader<User> csvReader() {
         FlatFileItemReader<User> itemReader = new FlatFileItemReader<>();
-        itemReader.setResource(new ClassPathResource("sample-data.csv"));
+        itemReader.setResource(new ClassPathResource("classifier-sample-data.csv"));
         itemReader.setLineMapper(lineMapper());
         return itemReader;
     }

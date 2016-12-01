@@ -34,6 +34,7 @@
 		<module>spring-batch-sample-composite-writer</module>
 		<module>spring-batch-sample-classifier-composite-writer</module>
 		<module>spring-batch-sample-dozer-mapper-processor</module>
+		<module>spring-batch-sample-validating-processor</module>
 	</modules>
 
 </project>

@@ -33,6 +33,7 @@
 		<module>spring-batch-sample-service-with-parameters-writer</module>
 		<module>spring-batch-sample-composite-writer</module>
 		<module>spring-batch-sample-classifier-composite-writer</module>
+		<module>spring-batch-sample-dozer-mapper-processor</module>
 	</modules>
 
 </project>

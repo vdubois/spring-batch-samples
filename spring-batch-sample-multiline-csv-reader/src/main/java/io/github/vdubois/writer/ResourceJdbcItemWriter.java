@@ -42,10 +42,10 @@ public class ResourceJdbcItemWriter implements ItemWriter<Resource> {
             if (resource.getClass().isAssignableFrom(User.class)) {
                 User user = (User) resource;
                 int updated = jdbcTemplate.update(UPDATE_USER,
-                        user.getFullName(), user.getPosition(), user.getCompanyNumber(), user.getId());
+                        user.getName(), user.getPosition(), user.getCompanyNumber(), user.getId());
                 if (updated == 0) {
                     jdbcTemplate.update(INSERT_USER,
-                            user.getId(), user.getFullName(), user.getPosition(), user.getCompanyNumber());
+                            user.getId(), user.getName(), user.getPosition(), user.getCompanyNumber());
                 }
             } else if (resource.getClass().isAssignableFrom(MailingList.class)) {
                 MailingList mailingList = (MailingList) resource;
